@@ -60,12 +60,15 @@ SIRST
 
 ## Best Results
 SIRST
+---       | ---         | ---           | ---         | ---
 Mode      | Best IoU(%) | Best nIoU(%)  | Best Pd(%)  | Best Fa(1e-6)
 ---       | ---         | ---           | ---         | ---
 ILNet-S   | 78.12       |  76.42        |  99.07      |  5.50
 ILNet-M   | 79.57       |  77.19        |  98.15      |  3.02
 ILNet-L   | 80.31       |  78.22        |  100        |  1.33
+---       | ---         | ---           | ---         | ---
 IRSTD-1k
+---       | ---         | ---           | ---         | ---
 Mode      | Best IoU(%) | Best nIoU(%)  | Best Pd(%)  | Best Fa(1e-6)
 ---       | ---         | ---           | ---         | ---
 ILNet-S   | 66.01       |  64.78        |  93.27      |  5.26

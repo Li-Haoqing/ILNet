@@ -1,7 +1,7 @@
 # ILNet: Low-level Matters for Salient Infrared Small Target Detection
 
 
-## Requirement
+## Requirements
      Python 3.7.10
      torch 1.10.1
 

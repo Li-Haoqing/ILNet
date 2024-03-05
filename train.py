@@ -63,29 +63,29 @@ class Trainer(object):
 
         assert args.mode in ['L', 'M', 'S']
         if args.mode == 'L':
-            self.model = ILNet_L()
+            self.net = ILNet_L()
         elif args.mode == 'M':
-            self.model = ILNet_M()
+            self.net = ILNet_M()
         elif args.mode == 'S':
-            self.model = ILNet_S()
+            self.net = ILNet_S()
         else:
             NameError
 
-        self.model = self.model.cuda()
+        self.net = self.net.cuda()
         self.scaler = torch.cuda.amp.GradScaler() if args.amp else None
 
         # self.criterion = SoftIoULoss()
         self.criterion = criterion
 
-        # self.optimizer = torch.optim.Adagrad(self.model.parameters(), lr=args.learning_rate, weight_decay=1e-4)
-        # self.optimizer = torch.optim.AdamW(self.model.parameters(), lr=args.learning_rate, weight_decay=0)
-        self.optimizer = Adan(self.model.parameters(), lr=args.learning_rate, weight_decay=1e-4)
+        # self.optimizer = torch.optim.Adagrad(self.net.parameters(), lr=args.learning_rate, weight_decay=1e-4)
+        # self.optimizer = torch.optim.AdamW(self.net.parameters(), lr=args.learning_rate, weight_decay=0)
+        self.optimizer = Adan(self.net.parameters(), lr=args.learning_rate, weight_decay=1e-4)
 
         self.lr_scheduler = create_lr_scheduler(self.optimizer, len(self.train_data_loader), args.epochs, warmup=True,
                                                 warmup_epochs=args.warm_up_epochs)
         if args.resume:
             checkpoint = torch.load(args.resume)
-            self.model.load_state_dict(checkpoint['model'])
+            self.net.load_state_dict(checkpoint['net'])
             self.optimizer.load_state_dict(checkpoint['optimizer'])
             self.lr_scheduler.load_state_dict(checkpoint['lr_scheduler'])
             args.start_epoch = checkpoint['epoch'] + 1
@@ -131,11 +131,11 @@ class Trainer(object):
         if self.train_set.__class__.__name__ == 'SirstDataset':
             self.writer = SummaryWriter(log_dir=self.save_folder)
             self.writer.add_text(folder_name, 'Args:%s, ' % args)
-            # self.writer.add_graph(self.model, next(iter(self.train_data_loader))[0].cuda())
+            # self.writer.add_graph(self.net, next(iter(self.train_data_loader))[0].cuda())
         if self.train_set.__class__.__name__ == 'IRSTD1K_Dataset':
             self.writer = SummaryWriter(log_dir=self.save_folder2)
             self.writer.add_text(folder_name, 'Args:%s, ' % args)
-            # self.writer.add_graph(self.model, next(iter(self.train_data_loader))[0].cuda())
+            # self.writer.add_graph(self.net, next(iter(self.train_data_loader))[0].cuda())
 
         if self.train_set.__class__.__name__ == 'SirstDataset':
             print('folder: %s' % self.save_folder)
@@ -146,13 +146,13 @@ class Trainer(object):
     def training(self, epoch):
 
         losses = []
-        self.model.train()
+        self.net.train()
         tbar = tqdm(self.train_data_loader)
         for i, (data, labels) in enumerate(tbar):
             data, labels = data.cuda(), labels.cuda()
 
             with torch.cuda.amp.autocast(enabled=self.scaler is not None):
-                output = self.model(data)
+                output = self.net(data)
                 loss = self.criterion(output, labels)
 
             self.optimizer.zero_grad()
@@ -181,11 +181,11 @@ class Trainer(object):
         self.PD_FA.reset()
 
         eval_losses = []
-        self.model.eval()
+        self.net.eval()
         tbar = tqdm(self.val_data_loader)
         for i, (data, labels) in enumerate(tbar):
             with torch.no_grad():
-                output = self.model(data.cuda())
+                output = self.net(data.cuda())
                 output = output.cpu()
 
             loss = self.criterion(output, labels)
@@ -203,7 +203,7 @@ class Trainer(object):
                                  % (epoch, np.mean(eval_losses), IoU, nIoU, Fa, Pd))
 
         pkl_name = 'Epoch-%3d_IoU-%.4f_nIoU-%.4f_Fa:%.8f_Pd:%.5f.pth' % (epoch, IoU, nIoU, Fa, Pd)
-        save_file = {"model": self.model.state_dict(),
+        save_file = {"net": self.net.state_dict(),
                      "optimizer": self.optimizer.state_dict(),
                      "lr_scheduler": self.lr_scheduler.state_dict(),
                      "epoch": epoch,

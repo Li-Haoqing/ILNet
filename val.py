@@ -42,18 +42,18 @@ class Val:
 
         assert args.mode in ['L', 'M', 'S']
         if args.mode == 'L':
-            self.model = ILNet_L()
+            self.net = ILNet_L()
         elif args.mode == 'M':
-            self.model = ILNet_M()
+            self.net = ILNet_M()
         elif args.mode == 'S':
-            self.model = ILNet_S()
+            self.net = ILNet_S()
         else:
             NameError
         checkpoint = torch.load(load_path)
-        self.model.load_state_dict(checkpoint)
-        # self.model.load_state_dict(checkpoint['model'])
+        self.net.load_state_dict(checkpoint)
+        # self.net.load_state_dict(checkpoint['net'])
 
-        self.model.to(device)
+        self.net.to(device)
 
         self.iou_metric = IoUMetric()
         self.nIoU_metric = nIoUMetric(1, score_thresh=0.5)
@@ -65,12 +65,12 @@ class Val:
         self.nIoU_metric.reset()
         self.PD_FA.reset()
 
-        self.model.eval()
-        print(next(self.model.parameters()).device)
+        self.net.eval()
+        print(next(self.net.parameters()).device)
         tbar = tqdm(self.val_data_loader)
         for i, (data, labels) in enumerate(tbar):
             with torch.no_grad():
-                output = self.model(data.cuda())
+                output = self.net(data.cuda())
                 output = output.cpu()
 
             self.iou_metric.update(output, labels)

@@ -48,11 +48,11 @@ class Demo:
 
         assert args.mode in ['L', 'M', 'S']
         if args.mode == 'L':
-            self.model = ILNet_L()
+            self.net = ILNet_L()
         elif args.mode == 'M':
-            self.model = ILNet_M()
+            self.net = ILNet_M()
         elif args.mode == 'S':
-            self.model = ILNet_S()
+            self.net = ILNet_S()
         else:
             NameError
 

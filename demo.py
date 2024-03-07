@@ -48,20 +48,20 @@ class Demo:
 
         assert args.mode in ['L', 'M', 'S']
         if args.mode == 'L':
-            self.net = ILNet_L()
+            net = ILNet_L()
         elif args.mode == 'M':
-            self.net = ILNet_M()
+            net = ILNet_M()
         elif args.mode == 'S':
-            self.net = ILNet_S()
+            net = ILNet_S()
         else:
             NameError
 
         checkpoint = torch.load(model_path)
-        model.load_state_dict(checkpoint['model'])
-        model.to(device)
-        model.eval()
+        net.load_state_dict(checkpoint['model'])
+        net.to(device)
+        net.eval()
         with torch.no_grad():
-            output = model(img.cuda()).squeeze(0).permute(1, 2, 0).cpu()
+            output = net(img.cuda()).squeeze(0).permute(1, 2, 0).cpu()
             predict = (output.detach().numpy() > self.score_thresh).astype('float32')
 
         num_pre, num_label, IoU, TPR, FPR, _fpr, Pd, Fa = self.evaluate(output, np_mask)

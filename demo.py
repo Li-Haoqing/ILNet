@@ -14,8 +14,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 def parse_args():
     parser = ArgumentParser(description='Implement of MY net')
 
-    parser.add_argument('--img_path', type=int, default='', help='image path: .png')
-    parser.add_argument('--mask_path', type=int, default=1, help='mask path: .png')
+    parser.add_argument('--img_path', type=str, default='', help='image path: .png')
+    parser.add_argument('--mask_path', type=str, default='', help='mask path: .png')
     parser.add_argument('--mode', type=str, default='L', help='mode: L, M, S')
     parser.add_argument('--checkpoint', type=str, default='', help='checkpoint: .pth')
 

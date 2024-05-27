@@ -50,8 +50,8 @@ class Val:
         else:
             NameError
         checkpoint = torch.load(load_path)
-        self.net.load_state_dict(checkpoint)
-        # self.net.load_state_dict(checkpoint['net'])
+        # self.net.load_state_dict(checkpoint)
+        self.net.load_state_dict(checkpoint['net'])
 
         self.net.to(device)
 

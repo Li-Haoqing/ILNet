@@ -89,15 +89,10 @@ ILNet-L   | 70.15       |  68.91        |  95.29      |  3.23
 
 ## Citation:
 
-@article{li2023ilnet,
-
-  title={ILNet: Low-level matters for salient infrared small target detection},
-  
-  author={Li, Haoqing and Yang, Jinfu and Wang, Runshi and Xu, Yifei},
-  
-  journal={arXiv preprint arXiv:2309.13646},
-  
-  year={2023}
-  
-}
+     @article{li2023ilnet,
+       title={ILNet: Low-level matters for salient infrared small target detection},
+       author={Li, Haoqing and Yang, Jinfu and Wang, Runshi and Xu, Yifei},
+       journal={arXiv preprint arXiv:2309.13646},
+       year={2023}
+     }
 

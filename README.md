@@ -88,6 +88,15 @@ ILNet-L   | 70.15       |  68.91        |  95.29      |  3.23
         https://github.com/Lliu666/DNANet_BatchFormer
 
 ## Citation:
+     @ARTICLE{ilnet,
+       author={Li, Haoqing and Yang, Jinfu and Wang, Runshi and Xu, Yifei},
+       journal={IEEE Transactions on Aerospace and Electronic Systems}, 
+       title={ILNet: Low-Level Matters for Salient Infrared Small Target Detection}, 
+       year={2025},
+       volume={},
+       number={},
+       pages={1-13},
+       doi={10.1109/TAES.2025.3544613}}
 
      @article{li2023ilnet,
        title={ILNet: Low-level matters for salient infrared small target detection},
